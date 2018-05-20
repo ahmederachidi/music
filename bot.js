@@ -40,8 +40,8 @@ client.on('msg', async msg => { // eslint-disable-line
 	command = command.slice(PREFIX.length)
 
 
-  if (command === 'play' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+	if (command === `play`) {
+		msg ? msg.delete(2000) : msg;
       if (!voiceChannel) {
           return msg.reply("you're not in a vocal channel.");
       }
@@ -64,7 +64,7 @@ client.on('msg', async msg => { // eslint-disable-line
               .setColor("FF0000")
               .setAuthor('Play', 'https://png.icons8.com/play/dusk/50')
               .setDescription(`Added "${playlist.title}" to queue!`);
-          return channel.send(embed);
+          return channel.send({ embed: embed });
       } else {
           try {
               var video = await youtube.getVideo(url);
@@ -80,8 +80,8 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === 'skip' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `skip`) {
+	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
@@ -97,7 +97,7 @@ client.on('msg', async msg => { // eslint-disable-line
               .setColor("FF0000")
               .setAuthor('Skip', 'https://png.icons8.com/chevron_right/dusk/50')
               .setDescription(`Song skipped \`⏩\``);
-          msg.channel.send(embed);
+          msg.channel.send({ embed: embed });
           serverQueue.connection.dispatcher.end();
           return undefined;
       } else {
@@ -105,8 +105,8 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === 'stop' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `stop`) {
+	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
@@ -123,7 +123,7 @@ client.on('msg', async msg => { // eslint-disable-line
               .setColor("FF0000")
               .setAuthor('Stop', 'https://png.icons8.com/stop/dusk/50')
               .setDescription(`Stop asked by ${msg.author.username} \`🚫\``);
-          msg.channel.send(embed);
+          msg.channel.send({ embed: embed });
           serverQueue.connection.dispatcher.end();
           return undefined;
       } else {
@@ -131,8 +131,8 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === 'volume' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `vol`) {
+	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
@@ -154,7 +154,7 @@ client.on('msg', async msg => { // eslint-disable-line
 Actual volume : **${serverQueue.volume}%**
 \`[1%]\` ${volume} \`[100%] 🔊\`
                   `);
-              return msg.channel.send(embed);
+              return msg.channel.send({ embed: embed });
           } else if (args[0] < 1 || args[0] > 100) {
               return msg.reply("you don't have access to those values (Authorized values : 1 to 100)");
           } else {
@@ -171,7 +171,7 @@ Actual volume : **${serverQueue.volume}%**
 Volume is now set at **${args[0]}%**
 \`[1%]\` ${newvolume} \`[100%] 🔊\`
                   `);
-              return msg.channel.send(embed);
+              return msg.channel.send({ embed: embed });
           }
 
       } else {
@@ -179,8 +179,8 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === 'now' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `now`) {
+	msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
           return msg.reply("nothing's playing.");
       }
@@ -189,10 +189,10 @@ Volume is now set at **${args[0]}%**
           .setAuthor('Now', 'https://png.icons8.com/play/dusk/50')
           .addField('Now playing:', `${serverQueue.songs[0].title} \`🔊\``)
           .setImage(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/maxresdefault.jpg`, serverQueue.songs[0].url, 100, 100);
-      return channel.send(embed);
+      return channel.send({ embed: embed });
   }
-  if (command === 'queue' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `queue`) {
+	msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
           return msg.reply("nothing's playing.");
       }
@@ -231,19 +231,19 @@ Volume is now set at **${args[0]}%**
           function BackwardReset() {
               embed.setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
               embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
-              msg.edit(embed);
+              msg.edit({ embed: embed });
           }
 
           function ForwardReset() {
               embed.setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
               embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
-              msg.edit(embed);
+              msg.edit({ embed: embed });
           }
 
           function Page1Reset() {
               embed.setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
               embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
-              msg.edit(embed);
+              msg.edit({ embed: embed });
           }
           backwards.on('collect', (r) => {
               if (user.id !== config.id) {
@@ -284,8 +284,8 @@ Volume is now set at **${args[0]}%**
       });
   }
 
-  if (command === 'pause' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `pause`) {
+	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
@@ -298,13 +298,13 @@ Volume is now set at **${args[0]}%**
                   .setColor("FF0000")
                   .setAuthor('Pause', 'https://png.icons8.com/stop/dusk/50')
                   .setDescription(`Stream paused by ${msg.author.username}`);
-              return msg.channel.send(embed);
+              return msg.channel.send({ embed: embed });
           }
       }
   }
 
-  if (command === 'resume' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `resume`) {
+	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
@@ -317,13 +317,13 @@ Volume is now set at **${args[0]}%**
                   .setColor("FF0000")
                   .setAuthor('Resume', 'https://png.icons8.com/resume_button/dusk/50')
                   .setDescription(`Stream resumed by ${msg.author.username}`);
-              return msg.channel.send(embed);
+              return msg.channel.send({ embed: embed });
           }
       }
   }
 
-  if (command === 'repeat' && msg.startsWith(config.PREFIX)) {
-      msg ? msg.delete(2000) : msg;
+  if (command === `repeat`) {
+	msg ? msg.delete(2000) : msg;
       if (args[0] === 'on') {
           const TrueEmbed = new Discord.RichEmbed()
               .setColor("FF0000")
@@ -379,7 +379,7 @@ Volume is now set at **${args[0]}%**
                   .setColor("FF0000")
                   .setAuthor('Play', 'https://png.icons8.com/play/dusk/50')
                   .setDescription(`\`${song.title}\` added to queue !`);
-              return msg.channel.send(embed);
+              return msg.channel.send({ embed: embed });
           }
       }
   }
@@ -403,7 +403,7 @@ Volume is now set at **${args[0]}%**
                       .setAuthor('Music', 'https://png.icons8.com/end/dusk/50')
                       .setDescription(`Queue ended.`);
                   serverQueue.voiceChannel.leave();
-                  return msg.channel.send(embed);
+                  return msg.channel.send({ embed: embed });
               } else if (serverQueue.repeat === true) {
                   play(guild, serverQueue.songs[0]);
               } else {
@@ -430,7 +430,7 @@ Volume is now set at **${args[0]}%**
           .setImage(`https://i.ytimg.com/vi/${song.id}/maxresdefault.jpg`)
           .addField("Now playing :", song.title, false)
           .setTimestamp();
-      return serverQueue.textChannel.send(embed);
+      return serverQueue.textChannel.send({ embed: embed });
   }
   
 });
