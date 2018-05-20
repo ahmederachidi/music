@@ -86,7 +86,7 @@ client.on('msg', async msg => { // eslint-disable-line
       if (userrole === null) {
           return;
       }
-      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
+	  if (!msg.guild.member(msg.author).hasPermission('MOVE_MEMBERS') || !msg.guild.member(msg.author).hasPermission('ADMINISTRATOR')) {
           if (!msg.member.voiceChannel) {
               return msg.reply("you're not in a vocal channel.");
           }
@@ -111,7 +111,7 @@ client.on('msg', async msg => { // eslint-disable-line
       if (userrole === null) {
           return;
       }
-      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
+	  if (!msg.guild.member(msg.author).hasPermission('MOVE_MEMBERS') || !msg.guild.member(msg.author).hasPermission('ADMINISTRATOR')) {
           if (!msg.member.voiceChannel) {
               return msg.reply("you're not in a vocal channel.");
           }
@@ -139,7 +139,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
       var volume = '';
       var volume = serverQueue.volume <= 10 ? '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬' : serverQueue.volume <= 20 ? '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬' : serverQueue.volume <= 30 ? '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬' : serverQueue.volume <= 40 ? '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬' : serverQueue.volume <= 50 ? '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬' : serverQueue.volume <= 60 ? '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬' : serverQueue.volume <= 70 ? '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬' : serverQueue.volume <= 80 ? '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬' : serverQueue.volume <= 90 ? '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬' : '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)';
-      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
+	  if (!msg.guild.member(msg.author).hasPermission('MOVE_MEMBERS') || !msg.guild.member(msg.author).hasPermission('ADMINISTRATOR')) {
           if (!msg.member.voiceChannel) {
               return msg.reply("you're not in a vocal channel.");
           }
@@ -290,8 +290,8 @@ Volume is now set at **${args[0]}%**
       if (userrole === null) {
           return;
       }
-      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
-          if (serverQueue && serverQueue.playing === true) {
+	  if (!msg.guild.member(msg.author).hasPermission('MOVE_MEMBERS') || !msg.guild.member(msg.author).hasPermission('ADMINISTRATOR')) {
+		if (serverQueue && serverQueue.playing === true) {
               serverQueue.playing = false;
               serverQueue.connection.dispatcher.pause();
               const embed = new Discord.RichEmbed()
@@ -309,8 +309,8 @@ Volume is now set at **${args[0]}%**
       if (userrole === null) {
           return;
       }
-      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
-          if (serverQueue && serverQueue.playing === false) {
+	  if (!msg.guild.member(msg.author).hasPermission('MOVE_MEMBERS') || !msg.guild.member(msg.author).hasPermission('ADMINISTRATOR')) {
+		if (serverQueue && serverQueue.playing === false) {
               serverQueue.playing = true;
               serverQueue.connection.dispatcher.resume();
               const embed = new Discord.RichEmbed()
