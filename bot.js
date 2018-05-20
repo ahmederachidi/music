@@ -27,7 +27,12 @@ client.on('message', async msg => { // eslint-disable-line
   const url = args[0] ? args[0].replace(/<(.+)>/g, '$1') : '';
   const voiceChannel = message.member.voiceChannel;
 
-
+    var msg = message.content;
+    var author = message.author;
+    var channel = message.channel;
+    var guild = message.guild;
+    var user = message.member
+    
 	const args = msg.content.split(' ');
 	const searchString = args.slice(1).join(' ');
 	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
