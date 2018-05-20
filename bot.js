@@ -23,8 +23,6 @@ client.on('error', console.error);
 
 
 client.on('message', async msg => { // eslint-disable-line
-  const searchString = content;
-  const serverQueue = queue.get(message.guild.id);
   const url = args[0] ? args[0].replace(/<(.+)>/g, '$1') : '';
   const voiceChannel = message.member.voiceChannel;
 
