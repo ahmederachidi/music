@@ -23,6 +23,8 @@ client.on('error', console.error);
 
 
 client.on('msg', async msg => { // eslint-disable-line
+	var prefix = "+";
+
   const voiceChannel = msg.member.voiceChannel;
 
     var msg = msg.content;
@@ -40,7 +42,7 @@ client.on('msg', async msg => { // eslint-disable-line
 	command = command.slice(PREFIX.length)
 
 
-	if (command === `play`) {
+	if(msg.content.startsWith(prefix + 'play')) {
 		msg ? msg.delete(2000) : msg;
       if (!voiceChannel) {
           return msg.reply("you're not in a vocal channel.");
@@ -80,7 +82,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === `skip`) {
+  if(msg.content.startsWith(prefix + 'skip')) {
 	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -105,7 +107,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === `stop`) {
+  if(msg.content.startsWith(prefix + 'stop')) {
 	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -131,7 +133,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === `vol`) {
+  if(msg.content.startsWith(prefix + 'vol')) {
 	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -179,7 +181,7 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === `now`) {
+  if(msg.content.startsWith(prefix + 'now')) {
 	msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
           return msg.reply("nothing's playing.");
@@ -191,7 +193,7 @@ Volume is now set at **${args[0]}%**
           .setImage(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/maxresdefault.jpg`, serverQueue.songs[0].url, 100, 100);
       return channel.send({ embed: embed });
   }
-  if (command === `queue`) {
+  if(msg.content.startsWith(prefix + 'queue')) {
 	msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
           return msg.reply("nothing's playing.");
@@ -284,7 +286,7 @@ Volume is now set at **${args[0]}%**
       });
   }
 
-  if (command === `pause`) {
+  if(msg.content.startsWith(prefix + 'pause')) {
 	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -303,7 +305,7 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === `resume`) {
+  if(msg.content.startsWith(prefix + 'resume')) {
 	msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -322,7 +324,7 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === `repeat`) {
+  if(msg.content.startsWith(prefix + 'repeat')) {
 	msg ? msg.delete(2000) : msg;
       if (args[0] === 'on') {
           const TrueEmbed = new Discord.RichEmbed()
