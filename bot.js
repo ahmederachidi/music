@@ -40,7 +40,7 @@ client.on('msg', async msg => { // eslint-disable-line
 	command = command.slice(PREFIX.length)
 
 
-  if (command === 'play' && msg.startsWith(config.prefix)) {
+  if (command === 'play' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       if (!voiceChannel) {
           return msg.reply("you're not in a vocal channel.");
@@ -80,7 +80,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === 'skip' && msg.startsWith(config.prefix)) {
+  if (command === 'skip' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -105,7 +105,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === 'stop' && msg.startsWith(config.prefix)) {
+  if (command === 'stop' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -131,7 +131,7 @@ client.on('msg', async msg => { // eslint-disable-line
       }
   }
 
-  if (command === 'volume' && msg.startsWith(config.prefix)) {
+  if (command === 'volume' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -179,7 +179,7 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === 'now' && msg.startsWith(config.prefix)) {
+  if (command === 'now' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
           return msg.reply("nothing's playing.");
@@ -191,7 +191,7 @@ Volume is now set at **${args[0]}%**
           .setImage(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/maxresdefault.jpg`, serverQueue.songs[0].url, 100, 100);
       return channel.send(embed);
   }
-  if (command === 'queue' && msg.startsWith(config.prefix)) {
+  if (command === 'queue' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
           return msg.reply("nothing's playing.");
@@ -284,7 +284,7 @@ Volume is now set at **${args[0]}%**
       });
   }
 
-  if (command === 'pause' && msg.startsWith(config.prefix)) {
+  if (command === 'pause' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -303,7 +303,7 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === 'resume' && msg.startsWith(config.prefix)) {
+  if (command === 'resume' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
@@ -322,7 +322,7 @@ Volume is now set at **${args[0]}%**
       }
   }
 
-  if (command === 'repeat' && msg.startsWith(config.prefix)) {
+  if (command === 'repeat' && msg.startsWith(config.PREFIX)) {
       msg ? msg.delete(2000) : msg;
       if (args[0] === 'on') {
           const TrueEmbed = new Discord.RichEmbed()
