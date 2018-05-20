@@ -22,14 +22,14 @@ client.on('warn', console.warn);
 client.on('error', console.error);
 
 
-client.on('message', async msg => { // eslint-disable-line
-  const voiceChannel = message.member.voiceChannel;
+client.on('msg', async msg => { // eslint-disable-line
+  const voiceChannel = msg.member.voiceChannel;
 
-    var msg = message.content;
-    var author = message.author;
-    var channel = message.channel;
-    var guild = message.guild;
-    var user = message.member
+    var msg = msg.content;
+    var author = msg.author;
+    var channel = msg.channel;
+    var guild = msg.guild;
+    var user = msg.member
     
 	const args = msg.content.split(' ');
 	const searchString = args.slice(1).join(' ');
@@ -41,24 +41,24 @@ client.on('message', async msg => { // eslint-disable-line
 
 
   if (command === 'play' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       if (!voiceChannel) {
-          return message.reply("you're not in a vocal channel.");
+          return msg.reply("you're not in a vocal channel.");
       }
-      const permissions = voiceChannel.permissionsFor(message.client.user);
+      const permissions = voiceChannel.permissionsFor(msg.client.user);
 
       if (!permissions.has('CONNECT')) {
-          return message.reply("I can't connect in this channel.");
+          return msg.reply("I can't connect in this channel.");
       }
       if (!permissions.has('SPEAK')) {
-          return message.reply("I can't talk in this channel.");
+          return msg.reply("I can't talk in this channel.");
       }
       if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
           const playlist = await youtube.getPlaylist(url);
           const videos = await playlist.getVideos();
           for (const video of Object.values(videos)) {
               const video2 = await youtube.getVideoByID(video.id);
-              await handleVideo(video2, message, voiceChannel, true);
+              await handleVideo(video2, msg, voiceChannel, true);
           }
           const embed = new Discord.RichEmbed()
               .setColor("FF0000")
@@ -76,75 +76,75 @@ client.on('message', async msg => { // eslint-disable-line
                   return espion.new_error(client, error);
               }
           }
-          return handleVideo(video, message, voiceChannel);
+          return handleVideo(video, msg, voiceChannel);
       }
   }
 
   if (command === 'skip' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
       }
-      if (message.author.id === config.admin || userrole.find('name', "DJ")) {
-          if (!message.member.voiceChannel) {
-              return message.reply("you're not in a vocal channel.");
+      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
+          if (!msg.member.voiceChannel) {
+              return msg.reply("you're not in a vocal channel.");
           }
           if (!serverQueue) {
-              return message.reply("nothing's playing.");
+              return msg.reply("nothing's playing.");
           }
           const embed = new Discord.RichEmbed()
               .setColor("FF0000")
               .setAuthor('Skip', 'https://png.icons8.com/chevron_right/dusk/50')
               .setDescription(`Song skipped \`⏩\``);
-          message.channel.send(embed);
+          msg.channel.send(embed);
           serverQueue.connection.dispatcher.end();
           return undefined;
       } else {
-          return message.reply("this command is restricted");
+          return msg.reply("this command is restricted");
       }
   }
 
   if (command === 'stop' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
       }
-      if (message.author.id === config.admin || userrole.find('name', "DJ")) {
-          if (!message.member.voiceChannel) {
-              return message.reply("you're not in a vocal channel.");
+      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
+          if (!msg.member.voiceChannel) {
+              return msg.reply("you're not in a vocal channel.");
           }
           if (!serverQueue) {
-              return message.reply("nothing's playing.");
+              return msg.reply("nothing's playing.");
           }
           serverQueue.songs = [];
           const embed = new Discord.RichEmbed()
               .setColor("FF0000")
               .setAuthor('Stop', 'https://png.icons8.com/stop/dusk/50')
-              .setDescription(`Stop asked by ${message.author.username} \`🚫\``);
-          message.channel.send(embed);
+              .setDescription(`Stop asked by ${msg.author.username} \`🚫\``);
+          msg.channel.send(embed);
           serverQueue.connection.dispatcher.end();
           return undefined;
       } else {
-          return message.reply("this command is restricted");
+          return msg.reply("this command is restricted");
       }
   }
 
   if (command === 'volume' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
       }
       var volume = '';
       var volume = serverQueue.volume <= 10 ? '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬' : serverQueue.volume <= 20 ? '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬' : serverQueue.volume <= 30 ? '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬' : serverQueue.volume <= 40 ? '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬' : serverQueue.volume <= 50 ? '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬' : serverQueue.volume <= 60 ? '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬' : serverQueue.volume <= 70 ? '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬' : serverQueue.volume <= 80 ? '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬' : serverQueue.volume <= 90 ? '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬' : '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)';
-      if (message.author.id === config.admin || userrole.find('name', "DJ")) {
-          if (!message.member.voiceChannel) {
-              return message.reply("you're not in a vocal channel.");
+      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
+          if (!msg.member.voiceChannel) {
+              return msg.reply("you're not in a vocal channel.");
           }
           if (!serverQueue) {
-              return message.reply("nothing's playing.");
+              return msg.reply("nothing's playing.");
           }
           if (!args[0]) {
               const embed = new Discord.RichEmbed()
@@ -154,9 +154,9 @@ client.on('message', async msg => { // eslint-disable-line
 Actual volume : **${serverQueue.volume}%**
 \`[1%]\` ${volume} \`[100%] 🔊\`
                   `);
-              return message.channel.send(embed);
+              return msg.channel.send(embed);
           } else if (args[0] < 1 || args[0] > 100) {
-              return message.reply("you don't have access to those values (Authorized values : 1 to 100)");
+              return msg.reply("you don't have access to those values (Authorized values : 1 to 100)");
           } else {
               serverQueue.volume = args[0];
               serverQueue.connection.dispatcher.setVolume(args[0] / 100);
@@ -171,18 +171,18 @@ Actual volume : **${serverQueue.volume}%**
 Volume is now set at **${args[0]}%**
 \`[1%]\` ${newvolume} \`[100%] 🔊\`
                   `);
-              return message.channel.send(embed);
+              return msg.channel.send(embed);
           }
 
       } else {
-          return message.reply("this command is restricted");
+          return msg.reply("this command is restricted");
       }
   }
 
   if (command === 'now' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
-          return message.reply("nothing's playing.");
+          return msg.reply("nothing's playing.");
       }
       const embed = new Discord.RichEmbed()
           .setColor("FF0000")
@@ -192,9 +192,9 @@ Volume is now set at **${args[0]}%**
       return channel.send(embed);
   }
   if (command === 'queue' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       if (!serverQueue) {
-          return message.reply("nothing's playing.");
+          return msg.reply("nothing's playing.");
       }
       var index = 0;
       var page = 1;
@@ -285,64 +285,64 @@ Volume is now set at **${args[0]}%**
   }
 
   if (command === 'pause' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
       }
-      if (message.author.id === config.admin || userrole.find('name', "DJ")) {
+      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
           if (serverQueue && serverQueue.playing === true) {
               serverQueue.playing = false;
               serverQueue.connection.dispatcher.pause();
               const embed = new Discord.RichEmbed()
                   .setColor("FF0000")
                   .setAuthor('Pause', 'https://png.icons8.com/stop/dusk/50')
-                  .setDescription(`Stream paused by ${message.author.username}`);
-              return message.channel.send(embed);
+                  .setDescription(`Stream paused by ${msg.author.username}`);
+              return msg.channel.send(embed);
           }
       }
   }
 
   if (command === 'resume' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       var userrole = user.roles;
       if (userrole === null) {
           return;
       }
-      if (message.author.id === config.admin || userrole.find('name', "DJ")) {
+      if (msg.author.id === config.admin || userrole.find('name', "DJ")) {
           if (serverQueue && serverQueue.playing === false) {
               serverQueue.playing = true;
               serverQueue.connection.dispatcher.resume();
               const embed = new Discord.RichEmbed()
                   .setColor("FF0000")
                   .setAuthor('Resume', 'https://png.icons8.com/resume_button/dusk/50')
-                  .setDescription(`Stream resumed by ${message.author.username}`);
-              return message.channel.send(embed);
+                  .setDescription(`Stream resumed by ${msg.author.username}`);
+              return msg.channel.send(embed);
           }
       }
   }
 
   if (command === 'repeat' && msg.startsWith(config.prefix)) {
-      message ? message.delete(2000) : message;
+      msg ? msg.delete(2000) : msg;
       if (args[0] === 'on') {
           const TrueEmbed = new Discord.RichEmbed()
               .setColor("FF0000")
               .setAuthor('Repeat', 'https://png.icons8.com/repeat/dusk/50')
               .setDescription(`**Repeat mode : on** \`✅\``);
           serverQueue.repeat = true;
-          return message.channel.send(TrueEmbed);
+          return msg.channel.send(TrueEmbed);
       } else if (args[0] === 'off') {
           const FalseEmbed = new Discord.RichEmbed()
               .setColor("FF0000")
               .setAuthor('Repeat', 'https://png.icons8.com/repeat/dusk/50')
               .setDescription(`**Repeat mode : off** \`✅\``);
           serverQueue.repeat = false;
-          return message.channel.send(FalseEmbed);
+          return msg.channel.send(FalseEmbed);
       }
   }
 
-  async function handleVideo(video, message, voiceChannel, playlist = false) {
-      const serverQueue = queue.get(message.guild.id);
+  async function handleVideo(video, msg, voiceChannel, playlist = false) {
+      const serverQueue = queue.get(msg.guild.id);
       const song = {
           id: video.id,
           title: (video.title),
@@ -350,7 +350,7 @@ Volume is now set at **${args[0]}%**
       };
       if (!serverQueue) {
           const queueConstruct = {
-              textChannel: message.channel,
+              textChannel: msg.channel,
               voiceChannel: voiceChannel,
               connection: null,
               songs: [],
@@ -358,14 +358,14 @@ Volume is now set at **${args[0]}%**
               playing: true,
               repeat: false
           };
-          queue.set(message.guild.id, queueConstruct);
+          queue.set(msg.guild.id, queueConstruct);
 
           queueConstruct.songs.push(song);
 
           try {
               var connection = await voiceChannel.join();
               queueConstruct.connection = connection;
-              play(message.guild, queueConstruct.songs[0]);
+              play(msg.guild, queueConstruct.songs[0]);
           } catch (error) {
               console.log(error);
               return espion.new_error(client, error);
@@ -379,7 +379,7 @@ Volume is now set at **${args[0]}%**
                   .setColor("FF0000")
                   .setAuthor('Play', 'https://png.icons8.com/play/dusk/50')
                   .setDescription(`\`${song.title}\` added to queue !`);
-              return message.channel.send(embed);
+              return msg.channel.send(embed);
           }
       }
   }
@@ -403,7 +403,7 @@ Volume is now set at **${args[0]}%**
                       .setAuthor('Music', 'https://png.icons8.com/end/dusk/50')
                       .setDescription(`Queue ended.`);
                   serverQueue.voiceChannel.leave();
-                  return message.channel.send(embed);
+                  return msg.channel.send(embed);
               } else if (serverQueue.repeat === true) {
                   play(guild, serverQueue.songs[0]);
               } else {
@@ -419,7 +419,7 @@ Volume is now set at **${args[0]}%**
       dispatcher.on('error', (error) => {
           console.log(error);
           espion.new_error(client, error);
-          return message.channel.send(`I had to stop because :\n\`\`\`${error}\`\`\``);
+          return msg.channel.send(`I had to stop because :\n\`\`\`${error}\`\`\``);
       });
       dispatcher.setVolume(serverQueue.volume / 100);
       const embed = new Discord.RichEmbed()
