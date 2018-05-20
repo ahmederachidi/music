@@ -27,6 +27,16 @@ client.on('message', async msg => { // eslint-disable-line
   const url = args[0] ? args[0].replace(/<(.+)>/g, '$1') : '';
   const voiceChannel = message.member.voiceChannel;
 
+
+	const args = msg.content.split(' ');
+	const searchString = args.slice(1).join(' ');
+	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
+	const serverQueue = queue.get(msg.guild.id);
+
+	let command = msg.content.toLowerCase().split(" ")[0];
+	command = command.slice(PREFIX.length)
+
+
   if (command === 'play' && msg.startsWith(config.prefix)) {
       message ? message.delete(2000) : message;
       if (!voiceChannel) {
